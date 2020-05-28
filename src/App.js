@@ -1,21 +1,10 @@
 import React from 'react';
-import { Row, Col, Container } from 'react-bootstrap';
+import { Row, Col, Container, Jumbotron } from 'react-bootstrap';
 import './App.css';
 
+
 function App() {
-  const welcome = {
-    greeting: 'Hey',
-    title: 'React',
-  };
-  const fruits = [
-    'apple',
-    'orange',
-    'banana',
-    'kiwi',
-    'apricot',
-    'grapefruit',
-  ];
-  const list = [
+  const stories = [
     {
       title: 'React',
       url: 'https://reactjs.org/',
@@ -32,47 +21,71 @@ function App() {
       points: 5,
       objectID:1,
     },
+    {
+      title: 'CNN',
+      url: 'https://cnn.com',
+      author: 'Random Man',
+      num_comments: 875,
+      points: 4.5,
+      objectID: 2,
+    },
+    {
+      title: 'YouTube',
+      url: 'https://youtube.com',
+      author: 'CEO of YouTube',
+      num_comments: Infinity,
+      points: 5,
+      objectID: 3,
+    },
   ];
 
   return (
     <Container>
-      <h1 className="display-2 text-center mb-5">{welcome.greeting} {welcome.title}</h1>
-      <Row>
-        <Col>
-          <h2>Fruits!</h2>
-          {fruits.map((fruit) => <p className="border-bottom p-2 lead">{fruit}</p>)}
-        </Col>
-        <Col>
-          {list.map((item) => {
-            return (
-              <div key={item.objectID} className="p-4 shadow mb-4">
-                <h2 className="text-center">{item.title}</h2>
-                <Row>
-                  <Col><p>URL</p></Col>
-                  <Col><a href={item.url}>{item.url}</a></Col>
-                </Row>
-                <Row>
-                  <Col><p>Author</p></Col>
-                  <Col>{item.author}</Col>
-                </Row>
-                <Row>
-                  <Col><p>Points</p></Col>
-                  <Col>{item.points}</Col>
-                </Row>
-                <Row>
-                  <Col><p>Comments</p></Col>
-                  <Col>{item.num_comments}</Col>
-                </Row>
-              </div>
-            );
-          })}
-        </Col>
-      </Row>
-
-      <label htmlFor="search">Search: </label>
-      <input id="search" type="text"></input>
+      <Jumbotron>
+        <h1 className="display-2 text-center">Hey React!</h1>
+      </Jumbotron>
+      <Search />
+      <List list={stories} />
     </Container>
   );
 }
 
+const List = (props) =>
+  props.list.map(item => (
+      <div key={item.objectID} className="p-4 shadow mb-4">
+        <h2 className="text-center">{item.title}</h2>
+        <Row>
+          <Col><p>URL</p></Col>
+          <Col><a href={item.url}>{item.url}</a></Col>
+        </Row>
+        <Row>
+          <Col><p>Author</p></Col>
+          <Col>{item.author}</Col>
+        </Row>
+        <Row>
+          <Col><p>Points</p></Col>
+          <Col>{item.points}</Col>
+        </Row>
+        <Row>
+          <Col><p>Comments</p></Col>
+          <Col>{item.num_comments}</Col>
+        </Row>
+      </div>
+));
+
+const Search = () => {
+  const handleChange = event => {
+    console.log(event.target.value);
+  };
+  return (
+    <div className="text-center p-4">
+      <form className="form-inline">
+        <div className="form-group">
+          <label htmlFor="search" className="font-weight-bold mr-3">Search: </label>
+          <input className="form-control" id="search" type="text" onChange={handleChange} />
+        </div>
+      </form>
+    </div>
+  );
+}
 export default App;
