@@ -4,6 +4,8 @@ import './App.css';
 
 
 function App() {
+  const [searchTerm, setSearchTerm] = React.useState('React');
+
   const stories = [
     {
       title: 'React',
@@ -39,13 +41,22 @@ function App() {
     },
   ];
 
+  const searchedStories = stories.filter(story => {
+    return story.title.toLowerCase().includes(searchTerm.toLowerCase());
+  });
+
+
+  const handleSearch = event => {
+    setSearchTerm(event.target.value);
+  }
+
   return (
     <Container>
       <Jumbotron>
         <h1 className="display-2 text-center">Hey React!</h1>
       </Jumbotron>
-      <Search />
-      <List list={stories} />
+      <Search onSearch={handleSearch} searchTerm={searchTerm}/>
+      <List list={searchedStories} />
     </Container>
   );
 }
@@ -73,16 +84,13 @@ const List = (props) =>
       </div>
 ));
 
-const Search = () => {
-  const handleChange = event => {
-    console.log(event.target.value);
-  };
+const Search = (props) => {
   return (
     <div className="text-center p-4">
       <form className="form-inline">
         <div className="form-group">
           <label htmlFor="search" className="font-weight-bold mr-3">Search: </label>
-          <input className="form-control" id="search" type="text" onChange={handleChange} />
+          <input className="form-control" value={props.searchTerm} id="search" type="text" onChange={props.onSearch} />
         </div>
       </form>
     </div>
